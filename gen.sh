@@ -1,7 +1,7 @@
 #!/bin/bash
-PROJECT=
-VERSION=
-EMAIL=
+PROJECT=exam
+VERSION=1.0
+EMAIL=xr3118@163.com
 autoscan
 sed -i s/FULL-PACKAGE-NAME/$PROJECT/g configure.scan
 sed -i s/VERSION/$VERSION/g configure.scan
@@ -14,6 +14,7 @@ rm configure.scan autoscan.log
 aclocal
 autoheader
 autoconf
+echo "Filenames with spaces is INVALID."
 read -e -p "Input programs: " PROGRAMS
 echo bin_PROGRAMS=$PROGRAMS > Makefile.am
 for PROGRAM in $PROGRAMS; do
