@@ -7,6 +7,16 @@ sed -i s/FULL-PACKAGE-NAME/$PROJECT/g configure.scan
 sed -i s/VERSION/$VERSION/g configure.scan
 sed -i s/BUG-REPORT-ADDRESS/$EMAIL/g configure.scan
 head -n -2 configure.scan > configure.ac
+echo "
+# enable debug or not                                                          
+AC_ARG_ENABLE([debug],
+    AS_HELP_STRING([--enable-debug], [enable DEBUG mode(default=no)]),
+    [],                                                            
+    [enable_debug=no])                                              
+AS_IF([test \"x\$enable_debug\" = \"xyes\"], [CXXFLAGS=\"-g2 -O0 -DDEBUG -Wall\"],        
+    [test \"x\$enable_debug\" = \"xno\"], [CXXFLAGS=\"-O3 -Wall\"],                  
+    [])       
+" >> configure.ac
 echo AM_INIT_AUTOMAKE\([foreign]\) >> configure.ac
 echo AC_CONFIG_FILES\([Makefile]\) >> configure.ac
 echo AC_OUTPUT >> configure.ac
