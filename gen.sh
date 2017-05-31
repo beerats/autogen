@@ -7,6 +7,8 @@ sed -i s/FULL-PACKAGE-NAME/$PROJECT/g configure.scan
 sed -i s/VERSION/$VERSION/g configure.scan
 sed -i s/BUG-REPORT-ADDRESS/$EMAIL/g configure.scan
 head -n -2 configure.scan > configure.ac
+
+# Enable debug feature for configure
 echo "
 # enable debug or not                                                          
 AC_ARG_ENABLE([debug],
@@ -17,6 +19,7 @@ AS_IF([test \"x\$enable_debug\" = \"xyes\"], [CXXFLAGS=\"-g2 -O0 -DDEBUG -Wall\"
     [test \"x\$enable_debug\" = \"xno\"], [CXXFLAGS=\"-O3 -Wall\"],                  
     [])       
 " >> configure.ac
+
 echo AM_INIT_AUTOMAKE\([foreign]\) >> configure.ac
 echo AC_CONFIG_FILES\([Makefile]\) >> configure.ac
 echo AC_OUTPUT >> configure.ac
@@ -25,10 +28,12 @@ aclocal
 autoheader
 autoconf
 echo "Filenames with spaces is INVALID."
-read -e -p "Input programs: " PROGRAMS
+# names for excutable programs generated
+read -e -p "Input names of excutable programs: " PROGRAMS
 echo bin_PROGRAMS=$PROGRAMS > Makefile.am
 for PROGRAM in $PROGRAMS; do
-    read -e -p "Input files for $PROGRAM: " FILES
+    # There is NO need to input header files
+    read -e -p "Input dependent files for $PROGRAM: " FILES
     echo $PROGRAM\_SOURCES\=$FILES >> Makefile.am
 done
 automake --add-missing
