@@ -1,2 +1,2 @@
 # autogen
-a shell script used for simplify usage of automake
+a shell script used for simplifying usage of automake
